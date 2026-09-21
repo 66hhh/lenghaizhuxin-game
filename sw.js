@@ -1,6 +1,6 @@
 "use strict";
 
-const CACHE_NAME="leng-hai-static-v1";
+const CACHE_NAME="leng-hai-static-v2";
 const ASSETS=[
   "./",
   "./index.html",
