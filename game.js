@@ -604,5 +604,5 @@ document.querySelectorAll("dialog").forEach(d=>d.addEventListener("click",e=>{ i
 renderRolePreview();
 
 if (typeof navigator !== "undefined" && "serviceWorker" in navigator && ["http:","https:"].includes(location.protocol)) {
-  window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));
+  window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js?v=2").catch(()=>{}));
 }
