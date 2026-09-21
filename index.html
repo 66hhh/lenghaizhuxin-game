@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0d2732">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="description" content="以哥本哈根与奥斯陆可持续城市实践为背景的合作决策游戏。">
+  <meta property="og:title" content="冷海筑新：北境转型 | Leng Hai Zhu Xin">
+  <meta property="og:description" content="一款以哥本哈根与奥斯陆城市实践为背景的3–4人合作式气候治理游戏。五年之内，在排放、公众支持、系统韧性与石油红利之间作出共同选择。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://66hhh.github.io/lenghaizhuxin-game/">
+  <meta property="og:image" content="https://66hhh.github.io/lenghaizhuxin-game/assets/waterfront.webp">
+  <meta property="og:image:alt" content="冬季北欧滨水空间与气候韧性景观">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="冷海筑新：北境转型">
+  <meta name="twitter:description" content="3–4人合作式气候治理游戏：五年之内，让城市承诺真正落地。">
+  <meta name="twitter:image" content="https://66hhh.github.io/lenghaizhuxin-game/assets/waterfront.webp">
+  <link rel="canonical" href="https://66hhh.github.io/lenghaizhuxin-game/">
+  <title>冷海筑新：北境转型</title>
+  <link rel="icon" type="image/svg+xml" href="./assets/app-icon.svg">
+  <link rel="apple-touch-icon" href="./assets/app-icon-192.png">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="brand-lockup">
+        <div class="brand-mark" aria-hidden="true"><span></span><i></i></div>
+        <div>
+          <p class="eyebrow">冷海筑新 · 北欧城市实践</p>
+          <h1>北境转型</h1>
+        </div>
+      </div>
+      <div class="top-actions">
+        <button class="text-button guide-link" id="tutorialButton" type="button">90秒教学</button>
+        <button class="text-button" id="rulesButton" type="button">完整规则</button>
+        <button class="text-button" id="conceptButton" type="button">实体卡概念图</button>
+        <button class="text-button" id="shareButton" type="button">分享与离线</button>
+        <button class="text-button danger-text hidden" id="restartButton" type="button">重新开始</button>
+      </div>
+    </header>
+
+    <main>
+      <section id="setupScreen" class="setup-screen">
+        <div class="setup-copy">
+          <p class="section-index">01 / CITY BRIEF</p>
+          <h2>五年之内，<br>让承诺真正落地。</h2>
+          <p class="lede">你们组成一座北欧港口城市的转型委员会。建设能源、公共空间与港口项目，应对预算压力，并决定是否动用石油红利来资助绿色未来。</p>
+          <div class="setup-note">
+            <span>共同目标</span>
+            <strong>有效排放不超过 6，同时守住公众支持与系统韧性</strong>
+          </div>
+          <div class="setup-loop" aria-label="每年流程">
+            <span><b>1</b>事件</span><i>→</i><span><b>2</b>资金</span><i>→</i><span><b>3</b>行动</span><i>→</i><span><b>4</b>落地</span><i>→</i><span><b>5</b>审计</span>
+          </div>
+        </div>
+        <div class="setup-panel">
+          <div class="panel-label">选择玩家人数</div>
+          <div class="count-switch" role="group" aria-label="玩家人数">
+            <button class="count-option active" type="button" data-count="3">3 人</button>
+            <button class="count-option" type="button" data-count="4">4 人</button>
+          </div>
+          <div id="rolePreview" class="role-preview" aria-live="polite"></div>
+          <button id="startButton" class="primary-button" type="button">
+            <span>进入教学并开局</span><b>→</b>
+          </button>
+          <p class="setup-footnote">同一台设备轮流操作 · 约 25–35 分钟 · 教学结束后直接进入第一个事件</p>
+        </div>
+      </section>
+
+      <section id="gameScreen" class="game-screen hidden" aria-live="polite">
+        <div class="status-strip">
+          <div class="round-cell">
+            <span>转型年度</span>
+            <strong id="roundLabel">01 / 05</strong>
+          </div>
+          <div id="metrics" class="metrics"></div>
+          <div class="paradox-cell">
+            <span>悖论标记</span>
+            <div id="paradoxTokens" class="token-row" aria-label="悖论标记数量"></div>
+          </div>
+        </div>
+
+        <section class="turn-guide" aria-live="polite">
+          <div class="phase-rail" id="phaseRail" aria-label="本年度流程"></div>
+          <div class="guide-copy">
+            <span id="guideKicker">当前任务</span>
+            <strong id="guideTitle">先处理城市事件</strong>
+            <p id="guideText">阅读事件并做出团队选择，结果会立即改变城市指标。</p>
+          </div>
+          <div class="win-check">
+            <span>最终要守住</span>
+            <b id="winCheckText">有效排放≤6 · 支持≥4 · 韧性≥5</b>
+            <em id="paradoxWarning" class="paradox-warning hidden">悖论已超过 2：本局无法达成深度转型</em>
+          </div>
+        </section>
+
+        <div class="game-grid">
+          <aside class="city-column">
+            <div class="column-heading">
+              <div><p class="section-index">EVENT / 事件</p><h2>城市现场</h2></div>
+              <span id="phaseBadge" class="phase-badge">事件阶段</span>
+            </div>
+            <article id="eventCard" class="event-card"></article>
+            <div id="oilDecision" class="oil-decision hidden">
+              <div class="oil-title"><span class="oil-dot"></span><strong>是否接受石油红利？</strong></div>
+              <p id="oilPreview">收益会随接受次数递减；每次仍增加 1 枚悖论标记，并计入有效排放。</p>
+              <div class="decision-buttons">
+                <button id="declineOil" class="secondary-button" type="button">拒绝红利</button>
+                <button id="acceptOil" class="oil-button" type="button">接受＋3预算</button>
+              </div>
+            </div>
+            <div class="built-section">
+              <div class="built-heading"><span>已落地项目</span><b id="builtCount">0</b></div>
+              <div id="builtProjects" class="built-projects"><p class="empty-copy">城市仍在等待第一个改变。</p></div>
+            </div>
+          </aside>
+
+          <section class="market-column">
+            <div class="column-heading market-heading">
+              <div><p class="section-index">PROJECT MARKET / 项目市场</p><h2>选择如何转型</h2></div>
+              <div class="market-tools">
+                <button id="refreshButton" class="refresh-button" type="button" disabled>刷新 1 张 · 1行动</button>
+                <button id="auditButton" class="audit-button" type="button" disabled>年度审计 →</button>
+              </div>
+            </div>
+            <div id="market" class="project-market"></div>
+            <div id="actionBar" class="action-bar">
+              <div class="active-player">
+                <span>当前决策者</span>
+                <strong id="activePlayerName">—</strong>
+                <small id="activePlayerRole">—</small>
+              </div>
+              <div class="action-pips" id="actionPips" aria-label="剩余行动点"></div>
+              <div class="quick-actions">
+                <button id="dialogueAction" type="button">公众沟通 <span>1行动＋1预算</span></button>
+                <button id="maintenanceAction" type="button">紧急维护 <span>1行动＋1预算</span></button>
+              </div>
+              <button id="nextPlayerButton" class="next-player" type="button">结束本轮操作</button>
+            </div>
+          </section>
+        </div>
+
+        <div class="log-drawer">
+          <button id="logToggle" type="button" aria-expanded="false">决策记录 <span id="logCount">0</span></button>
+          <div id="gameLog" class="game-log hidden"></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <dialog id="eventDialog" class="game-dialog">
+    <div id="eventDialogContent"></div>
+  </dialog>
+
+  <dialog id="tutorialDialog" class="tutorial-dialog">
+    <div class="tutorial-topline">
+      <p class="section-index">90-SECOND BRIEF / 新手教学</p>
+      <span id="tutorialProgress">1 / 5</span>
+    </div>
+    <div id="tutorialContent"></div>
+    <div class="tutorial-controls">
+      <button id="tutorialBack" class="secondary-button" type="button">上一步</button>
+      <button id="tutorialNext" class="primary-button compact-primary" type="button"><span>下一步</span><b>→</b></button>
+    </div>
+  </dialog>
+
+  <dialog id="rulesDialog" class="info-dialog">
+    <button class="dialog-close" type="button" data-close="rulesDialog" aria-label="关闭">×</button>
+    <p class="section-index">HOW TO PLAY / 规则</p>
+    <h2>共同决策，也共同承担后果</h2>
+    <ol class="rules-list">
+      <li><b>读取事件</b><span>每个年度先处理一项城市压力或机遇。</span></li>
+      <li><b>决定资金来源</b><span>石油红利依次提供 3、2、1 点预算，每次都会留下 1 枚悖论标记。</span></li>
+      <li><b>轮流行动</b><span>每人每年有 2 点行动；同一玩家每年对同一项目只能支持一次。</span></li>
+      <li><b>合作落地</b><span>不同玩家的支持达到要求后，支付预算即可建设；落地本身不消耗行动。</span></li>
+      <li><b>年度审计</b><span>五个年度后，排放、支持、韧性与悖论共同决定结局。</span></li>
+    </ol>
+    <section class="role-rules" aria-labelledby="roleRulesTitle">
+      <h3 id="roleRulesTitle">角色能力</h3>
+      <ul>
+        <li><b>城市空间规划师</b><span>每年首个公共空间或交通项目，建设费用－1。</span></li>
+        <li><b>能源与水务工程师</b><span>每年首个能源或基础设施项目落地后，系统韧性＋1。</span></li>
+        <li><b>港口运营负责人</b><span>该玩家参与支持港口项目时，所需支持数－1。</span></li>
+        <li><b>气候预算官</b><span>每年首次建设项目，费用－1。</span></li>
+      </ul>
+      <p>同一项目最多享受1点角色费用减免；若同时符合规划师和预算官能力，优先使用规划师能力，并保留预算官能力。</p>
+    </section>
+    <p class="event-rule"><b>港口用电高峰：</b>若已完成电网容量升级，系统韧性＋1；若尚未完成，系统韧性－1。</p>
+    <div class="rules-goal"><span>深度转型条件</span><strong>有效排放 ≤ 6 · 支持 ≥ 4 · 韧性 ≥ 5 · 悖论 ≤ 2</strong></div>
+  </dialog>
+
+  <dialog id="conceptDialog" class="concept-dialog">
+    <button class="dialog-close" type="button" data-close="conceptDialog" aria-label="关闭">×</button>
+    <div class="concept-header">
+      <div><p class="section-index">PHYSICAL EDITION / 实体概念</p><h2>线下卡片视觉概念</h2></div>
+      <button id="printConcept" class="secondary-button" type="button">打印概念页</button>
+    </div>
+    <p class="concept-intro">实体卡沿用网页中的档案编号、项目标签与指标语言；图像使用统一的北欧城市转型纪实视觉，后续仍可替换为支队参访原片。</p>
+    <div class="concept-grid">
+      <article class="concept-card project-concept">
+        <div class="concept-photo entity-card-image"><img src="./assets/entity-project-waste-to-energy.webp" alt="哥本哈根冬季垃圾能源回收与区域供热设施"><span>ARC / COPENHILL</span></div>
+        <div class="concept-body"><p>CPH · ENERGY · 04</p><h3>残余垃圾能源回收</h3><div class="concept-stats"><span>预算 3</span><span>支持 2</span></div><small>与“区域供热网络”共同建设时，额外减少 1 点排放。</small></div>
+      </article>
+      <article class="concept-card event-concept">
+        <div class="concept-photo entity-card-image"><img src="./assets/entity-event-port-power-peak.webp" alt="奥斯陆港渡轮、岸电与电动物流同时用电的夜间场景"><span>EVENT 07</span></div><div class="concept-body"><p>城市压力</p><h3>港口用电高峰</h3><small>若已完成电网容量升级，系统韧性＋1；若尚未完成，系统韧性－1。</small></div>
+      </article>
+      <article class="concept-card role-concept">
+        <div class="concept-photo entity-card-image"><img src="./assets/entity-role-energy-water-engineer.webp" alt="工程师在城市能源与水务控制室检查系统网络"><span>ROLE 02</span></div><div class="concept-body"><p>系统协同</p><h3>能源与水务工程师</h3><small>每年首个能源或基础设施项目落地后，系统韧性＋1。</small></div>
+      </article>
+      <article class="concept-card paradox-concept">
+        <div class="concept-photo entity-card-image"><img src="./assets/entity-paradox-oil-dividend.webp" alt="北海油气平台、海上风机与港口共同构成的能源转型悖论"><span>NORWAY PARADOX</span></div><div class="concept-body"><p>资金抉择</p><h3>石油红利</h3><div class="big-number">+3 / +2 / +1</div><small>收益逐次递减；每次仍增加 1 悖论，并计入有效排放。</small></div>
+      </article>
+    </div>
+  </dialog>
+
+  <dialog id="resultDialog" class="result-dialog">
+    <div id="resultContent"></div>
+  </dialog>
+
+  <dialog id="shareDialog" class="share-dialog">
+    <button class="dialog-close" type="button" data-close="shareDialog" aria-label="关闭">×</button>
+    <p class="section-index">SHARE & OFFLINE / 分享</p>
+    <h2>扫码进入北境转型</h2>
+    <div class="share-layout">
+      <img id="shareQrImage" src="./assets/app-icon.svg" alt="部署后由当前访问网址自动生成的二维码" width="512" height="512">
+      <div class="share-copy">
+        <p>部署后，二维码会自动指向当前在线地址；下载离线版后，电脑无需联网即可直接打开游玩。</p>
+        <code id="shareUrlText">部署后自动显示当前网址</code>
+        <div class="share-actions">
+          <button id="copySiteLink" class="secondary-button" type="button">复制在线网址</button>
+          <a id="offlineDownload" class="offline-button" href="./assets/leng-hai-offline.html" download>下载离线版</a>
+        </div>
+        <small id="shareStatus" aria-live="polite">静态部署后可直接扫码分享；本地打开时可使用离线版。</small>
+      </div>
+    </div>
+  </dialog>
+
+  <script src="./assets/qr-generator.js"></script>
+  <script src="./game.js"></script>
+</body>
+</html>
