@@ -69,6 +69,12 @@ button:focus-visible { outline: 3px solid var(--signal); outline-offset: 3px; }
 .role-preview-item b { width: 28px; height: 28px; display: grid; place-items: center; color: var(--white); background: var(--ink-2); font-size: .72rem; }
 .role-preview-item strong { font-size: .96rem; }
 .role-preview-item span { font-size: .75rem; color: #547079; }
+
+@media (max-width: 1500px) {
+  .role-preview-item { grid-template-columns: 34px minmax(0,1fr); gap: 8px 12px; align-items: start; }
+  .role-preview-item strong { line-height: 1.4; word-break: keep-all; }
+  .role-preview-item span { grid-column: 2; line-height: 1.5; }
+}
 .primary-button { border: 0; background: var(--signal); color: #24120b; padding: 18px 22px; display: flex; justify-content: space-between; align-items: center; font-weight: 900; cursor: pointer; box-shadow: 8px 8px 0 var(--ink); }
 .primary-button:hover { transform: translate(2px,2px); box-shadow: 6px 6px 0 var(--ink); }
 .primary-button b { font-size: 1.5rem; }
